@@ -8,6 +8,9 @@ function App() {
       <header>
         <Navbar />
       </header>
+      <body>
+        <h1>Body</h1>
+      </body>
     </div>
   );
 }
