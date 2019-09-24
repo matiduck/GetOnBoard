@@ -9,7 +9,7 @@ function App() {
         <Navbar />
       </header>
       <body>
-        <h1>Body</h1>
+        <h1 className="h2">Body</h1>
       </body>
     </div>
   );
