@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import { Navbar } from './Components/Navbar/Navbar';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App container">
       <header>
@@ -13,6 +13,6 @@ function App() {
       </body>
     </div>
   );
-}
+};
 
 export default App;
