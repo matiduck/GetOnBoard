@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.scss';
-import { Navbar } from './Components/Navbar/Navbar';
+import { Header } from './Components/Header/Header';
 
 const App: React.FC = () => {
   return (
-    <div className="App container">
+    <div className="App">
       <header>
-        <Navbar />
+        <Header />
       </header>
       <body>
         <h1 className="h2">Body</h1>
