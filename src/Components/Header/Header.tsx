@@ -44,6 +44,7 @@ export const Header: React.FC = () => {
 				>
 					<MenuIcon />
 				</IconButton>
+				{/*<MenuButton />*/}
 				<DirectionsBoatTwoToneIcon className={classes.logo} />
 				<Typography variant="h6" className={classes.title}>
 					GetOnBoard
