@@ -12,6 +12,21 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { createStyles, makeStyles } from '@material-ui/styles';
+import { drawerToggle } from '../../store/actions/drawer.actions';
+import { connect } from 'react-redux';
+import { RootState } from '../../store/reducers';
+
+interface StateProps {
+	open: boolean;
+}
+
+interface DispatchProps {
+	drawerToggle: (open: boolean) => void;
+}
+type StateToProps = (state: RootState) => StateProps;
+type DispatchToProps = (dispatch: any) => DispatchProps;
+
+type Props = StateProps & DispatchProps;
 
 const drawerWidth = 240;
 
@@ -35,19 +50,19 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-export const AppDrawer: React.FC = () => {
+const AppDrawer: React.FC<Props> = ({ open, drawerToggle }) => {
 	const classes = useStyles();
 	const theme = useTheme();
 
-	const [open, setOpen] = React.useState<boolean>(true);
-
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
-
-	const handleDrawerClose = () => {
-		setOpen(false);
-	};
+	// const [open, setOpen] = React.useState<boolean>(true);
+	// 	//
+	// 	// const handleDrawerOpen = () => {
+	// 	// 	setOpen(true);
+	// 	// };
+	// 	//
+	// 	// const handleDrawerClose = () => {
+	// 	// 	setOpen(false);
+	// 	// };
 
 	return (
 		<Drawer
@@ -60,7 +75,7 @@ export const AppDrawer: React.FC = () => {
 			}}
 		>
 			<div className={classes.drawerHeader}>
-				<IconButton onClick={handleDrawerClose}>
+				<IconButton onClick={() => drawerToggle(false)}>
 					{theme.direction === 'ltr' ? (
 						<ChevronLeftIcon />
 					) : (
@@ -95,3 +110,21 @@ export const AppDrawer: React.FC = () => {
 		</Drawer>
 	);
 };
+
+const mapStateToProps: StateToProps = ({
+	drawer: { open },
+}: RootState) => ({
+	open,
+});
+
+const mapDispatchToProps: DispatchToProps = dispatch => ({
+	drawerToggle: (open: boolean) =>
+		dispatch(drawerToggle({ open: open })),
+});
+
+const ConnectedAppDrawer = connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(AppDrawer);
+
+export { ConnectedAppDrawer as AppDrawer };
