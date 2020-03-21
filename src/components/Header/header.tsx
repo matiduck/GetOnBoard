@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		appBar: {
 			background: theme.palette.background.default,
-			zIndex: theme.zIndex.drawer + 1,
 			transition: theme.transitions.create(['margin', 'width'], {
 				easing: theme.transitions.easing.sharp,
 				duration: theme.transitions.duration.leavingScreen,
@@ -61,7 +60,7 @@ const Header: React.FC<StateProps> = ({ open }) => {
 	const classes = useStyles();
 	return (
 		<AppBar
-			position="static"
+			position="fixed"
 			className={clsx(classes.appBar, {
 				[classes.appBarShift]: open,
 			})}
