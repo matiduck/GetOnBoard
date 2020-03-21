@@ -16,18 +16,18 @@ import { drawerToggle } from '../../store/actions/drawer.actions';
 import { connect } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { Hidden } from '@material-ui/core';
+import * as AppDrawerToggle from './AppDrawerToggle';
 
 interface StateProps {
-	open: boolean;
+	drawerToggleStateProps: AppDrawerToggle.DrawerToggleStateProps;
 }
-
 interface DispatchProps {
-	drawerToggle: (open: boolean) => void;
+	drawerToggleDispatchProps: AppDrawerToggle.DrawerToggleDispatchProps;
 }
-type StateToProps = (state: RootState) => StateProps;
-type DispatchToProps = (dispatch: any) => DispatchProps;
 
 type Props = StateProps & DispatchProps;
+type StateToProps = (state: RootState) => StateProps;
+type DispatchToProps = (dispatch: any) => DispatchProps;
 
 export const drawerWidthSmUp = 240;
 export const drawerWidthSmDown = 60;
@@ -64,7 +64,10 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-const AppDrawer: React.FC<Props> = ({ open, drawerToggle }) => {
+const AppDrawer: React.FC<Props> = ({
+	drawerToggleDispatchProps: { drawerToggle },
+	drawerToggleStateProps: { open },
+}) => {
 	const classes = useStyles();
 	const theme = useTheme();
 
@@ -122,12 +125,16 @@ const AppDrawer: React.FC<Props> = ({ open, drawerToggle }) => {
 const mapStateToProps: StateToProps = ({
 	drawer: { open },
 }: RootState) => ({
-	open,
+	drawerToggleStateProps: {
+		open,
+	},
 });
 
 const mapDispatchToProps: DispatchToProps = dispatch => ({
-	drawerToggle: (open: boolean) =>
-		dispatch(drawerToggle({ open: open })),
+	drawerToggleDispatchProps: {
+		drawerToggle: (open: boolean) =>
+			dispatch(drawerToggle({ open: open })),
+	},
 });
 
 const ConnectedAppDrawer = connect(

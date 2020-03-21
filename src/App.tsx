@@ -1,19 +1,17 @@
 import React from 'react';
 import './App.scss';
-import { Header } from './components/Header/header';
-import { AppDrawer } from './components/Header/appDrawer';
+import { AppToolbar } from './components/AppToolbar/AppToolbar';
+import { AppDrawer } from './components/AppDrawer/AppDrawer';
 
 const App: React.FC = () => {
 	return (
-		<div>
+		<React.Fragment>
 			<header>
-				<Header />
-			</header>
-			<body>
+				<AppToolbar />
 				<AppDrawer />
-				<h1 className="h2">Body</h1>
-			</body>
-		</div>
+			</header>
+			<h1>Body</h1>
+		</React.Fragment>
 	);
 };
 

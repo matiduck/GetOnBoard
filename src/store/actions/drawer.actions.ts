@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions';
 
-export const drawerToggle = createAction('drawer: toggle')<{
+export const drawerToggle = createAction('AppDrawer: toggle')<{
 	open: boolean;
 }>();

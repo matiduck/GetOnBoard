@@ -6,18 +6,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RootState } from '../../store/reducers';
 import { connect } from 'react-redux';
 import { drawerToggle } from '../../store/actions/drawer.actions';
+import {
+	DrawerToggleDispatchProps,
+	DrawerToggleStateProps,
+} from '../AppDrawer/AppDrawerToggle';
 
 interface StateProps {
-	open: boolean;
+	drawerToggleStateProps: DrawerToggleStateProps;
 }
-
 interface DispatchProps {
-	drawerToggle: (open: boolean) => void;
+	drawerToggleDispatchProps: DrawerToggleDispatchProps;
 }
 
+type Props = StateProps & DispatchProps;
 type StateToProps = (state: RootState) => StateProps;
 type DispatchToProps = (dispatch: any) => DispatchProps;
-type Props = StateProps & DispatchProps;
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -28,7 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-const MenuButton: React.FC<Props> = ({ open, drawerToggle }) => {
+const MenuButton: React.FC<Props> = ({
+	drawerToggleDispatchProps: { drawerToggle },
+	drawerToggleStateProps: { open },
+}) => {
 	const classes = useStyles();
 	return (
 		<Box>
@@ -48,12 +54,16 @@ const MenuButton: React.FC<Props> = ({ open, drawerToggle }) => {
 const mapStateToProps: StateToProps = ({
 	drawer: { open },
 }: RootState) => ({
-	open,
+	drawerToggleStateProps: {
+		open,
+	},
 });
 
 const mapDispatchToProps: DispatchToProps = dispatch => ({
-	drawerToggle: (open: boolean) =>
-		dispatch(drawerToggle({ open: open })),
+	drawerToggleDispatchProps: {
+		drawerToggle: (open: boolean) =>
+			dispatch(drawerToggle({ open: open })),
+	},
 });
 
 const ConnectedMenuButton = connect(

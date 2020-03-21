@@ -9,15 +9,22 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DirectionsBoatTwoToneIcon from '@material-ui/icons/DirectionsBoatTwoTone';
-import { MenuButton } from './menuButton';
+import { MenuButton } from './MenuButton';
 import { RootState } from '../../store/reducers';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
-import { drawerWidthSmDown, drawerWidthSmUp } from './appDrawer';
+import {
+	drawerWidthSmDown,
+	drawerWidthSmUp,
+} from '../AppDrawer/AppDrawer';
+import { DrawerToggleStateProps } from '../AppDrawer/AppDrawerToggle';
 
 interface StateProps {
-	open: boolean;
+	drawerToggleStateProps: DrawerToggleStateProps;
 }
+
+type Props = StateProps;
+type StateToProps = (state: RootState) => StateProps;
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -53,34 +60,44 @@ const useStyles = makeStyles((theme: Theme) =>
 			height: 43.54,
 			marginRight: 10,
 		},
+		offset: theme.mixins.toolbar,
 	}),
 );
 
-const Header: React.FC<StateProps> = ({ open }) => {
+const AppToolbar: React.FC<Props> = ({
+	drawerToggleStateProps: { open },
+}) => {
 	const classes = useStyles();
 	return (
-		<AppBar
-			position="fixed"
-			className={clsx(classes.appBar, {
-				[classes.appBarShift]: open,
-			})}
-		>
-			<Toolbar>
-				<MenuButton />
-				<DirectionsBoatTwoToneIcon className={classes.logo} />
-				<Typography variant="h6" className={classes.title}>
-					GetOnBoard
-				</Typography>
-				<Button color="inherit">Login</Button>
-			</Toolbar>
-		</AppBar>
+		<React.Fragment>
+			<AppBar
+				position="fixed"
+				className={clsx(classes.appBar, {
+					[classes.appBarShift]: open,
+				})}
+			>
+				<Toolbar>
+					<MenuButton />
+					<DirectionsBoatTwoToneIcon className={classes.logo} />
+					<Typography variant="h6" className={classes.title}>
+						GetOnBoard
+					</Typography>
+					<Button color="inherit">Login</Button>
+				</Toolbar>
+			</AppBar>
+			<div className={classes.offset} />
+		</React.Fragment>
 	);
 };
 
-const mapStateToProps = ({ drawer: { open } }: RootState) => ({
-	open,
+const mapStateToProps: StateToProps = ({
+	drawer: { open },
+}: RootState) => ({
+	drawerToggleStateProps: {
+		open,
+	},
 });
 
-const ConnectedHeader = connect(mapStateToProps)(Header);
+const ConnectedAppToolbar = connect(mapStateToProps)(AppToolbar);
 
-export { ConnectedHeader as Header };
+export { ConnectedAppToolbar as AppToolbar };
