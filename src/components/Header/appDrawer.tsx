@@ -15,6 +15,7 @@ import { createStyles, makeStyles } from '@material-ui/styles';
 import { drawerToggle } from '../../store/actions/drawer.actions';
 import { connect } from 'react-redux';
 import { RootState } from '../../store/reducers';
+import { Hidden } from '@material-ui/core';
 
 interface StateProps {
 	open: boolean;
@@ -28,16 +29,29 @@ type DispatchToProps = (dispatch: any) => DispatchProps;
 
 type Props = StateProps & DispatchProps;
 
-const drawerWidth = 240;
+export const drawerWidthSmUp = 240;
+export const drawerWidthSmDown = 60;
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		drawer: {
-			width: drawerWidth,
+			[theme.breakpoints.down('sm')]: {
+				width: drawerWidthSmDown,
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: drawerWidthSmUp,
+			},
+			// width: drawerWidth,
 			flexShrink: 0,
 		},
 		drawerPaper: {
-			width: drawerWidth,
+			[theme.breakpoints.down('sm')]: {
+				width: drawerWidthSmDown,
+				overflowX: 'hidden',
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: drawerWidthSmUp,
+			},
 		},
 		drawerHeader: {
 			display: 'flex',
@@ -53,16 +67,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const AppDrawer: React.FC<Props> = ({ open, drawerToggle }) => {
 	const classes = useStyles();
 	const theme = useTheme();
-
-	// const [open, setOpen] = React.useState<boolean>(true);
-	// 	//
-	// 	// const handleDrawerOpen = () => {
-	// 	// 	setOpen(true);
-	// 	// };
-	// 	//
-	// 	// const handleDrawerClose = () => {
-	// 	// 	setOpen(false);
-	// 	// };
 
 	return (
 		<Drawer
@@ -91,7 +95,9 @@ const AppDrawer: React.FC<Props> = ({ open, drawerToggle }) => {
 							<ListItemIcon>
 								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
 							</ListItemIcon>
-							<ListItemText primary={text} />
+							<Hidden xsDown implementation="css">
+								<ListItemText primary={text} />
+							</Hidden>
 						</ListItem>
 					),
 				)}
@@ -103,7 +109,9 @@ const AppDrawer: React.FC<Props> = ({ open, drawerToggle }) => {
 						<ListItemIcon>
 							{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
 						</ListItemIcon>
-						<ListItemText primary={text} />
+						<Hidden xsDown implementation="css">
+							<ListItemText primary={text} />
+						</Hidden>
 					</ListItem>
 				))}
 			</List>

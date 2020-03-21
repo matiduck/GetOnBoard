@@ -10,11 +10,38 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DirectionsBoatTwoToneIcon from '@material-ui/icons/DirectionsBoatTwoTone';
 import { MenuButton } from './menuButton';
+import { RootState } from '../../store/reducers';
+import { connect } from 'react-redux';
+import clsx from 'clsx';
+import { drawerWidthSmDown, drawerWidthSmUp } from './appDrawer';
+
+interface StateProps {
+	open: boolean;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		appBar: {
 			background: theme.palette.background.default,
+			zIndex: theme.zIndex.drawer + 1,
+			transition: theme.transitions.create(['margin', 'width'], {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.leavingScreen,
+			}),
+		},
+		appBarShift: {
+			[theme.breakpoints.down('sm')]: {
+				width: `calc(100% - ${drawerWidthSmDown}px)`,
+				marginLeft: drawerWidthSmDown,
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: `calc(100% - ${drawerWidthSmUp}px)`,
+				marginLeft: drawerWidthSmUp,
+			},
+			transition: theme.transitions.create(['margin', 'width'], {
+				easing: theme.transitions.easing.easeOut,
+				duration: theme.transitions.duration.enteringScreen,
+			}),
 		},
 		menuButton: {
 			marginRight: theme.spacing(2),
@@ -30,10 +57,15 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 
-export const Header: React.FC = () => {
+const Header: React.FC<StateProps> = ({ open }) => {
 	const classes = useStyles();
 	return (
-		<AppBar position="static" className={classes.appBar}>
+		<AppBar
+			position="static"
+			className={clsx(classes.appBar, {
+				[classes.appBarShift]: open,
+			})}
+		>
 			<Toolbar>
 				<MenuButton />
 				<DirectionsBoatTwoToneIcon className={classes.logo} />
@@ -45,3 +77,11 @@ export const Header: React.FC = () => {
 		</AppBar>
 	);
 };
+
+const mapStateToProps = ({ drawer: { open } }: RootState) => ({
+	open,
+});
+
+const ConnectedHeader = connect(mapStateToProps)(Header);
+
+export { ConnectedHeader as Header };
