@@ -12,11 +12,6 @@ import DirectionsBoatTwoToneIcon from '@material-ui/icons/DirectionsBoatTwoTone'
 import { MenuButton } from './MenuButton';
 import { RootState } from '../../store/reducers';
 import { connect } from 'react-redux';
-import clsx from 'clsx';
-import {
-	drawerWidthSmDown,
-	drawerWidthSmUp,
-} from '../AppDrawer/AppDrawer';
 import { DrawerToggleStateProps } from '../AppDrawer/AppDrawerToggle';
 
 interface StateProps {
@@ -29,25 +24,7 @@ type StateToProps = (state: RootState) => StateProps;
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		appBar: {
-			background: theme.palette.background.default,
-			transition: theme.transitions.create(['margin', 'width'], {
-				easing: theme.transitions.easing.sharp,
-				duration: theme.transitions.duration.leavingScreen,
-			}),
-		},
-		appBarShift: {
-			[theme.breakpoints.down('sm')]: {
-				width: `calc(100% - ${drawerWidthSmDown}px)`,
-				marginLeft: drawerWidthSmDown,
-			},
-			[theme.breakpoints.up('sm')]: {
-				width: `calc(100% - ${drawerWidthSmUp}px)`,
-				marginLeft: drawerWidthSmUp,
-			},
-			transition: theme.transitions.create(['margin', 'width'], {
-				easing: theme.transitions.easing.easeOut,
-				duration: theme.transitions.duration.enteringScreen,
-			}),
+			// background: theme.palette.background.default,
 		},
 		menuButton: {
 			marginRight: theme.spacing(2),
@@ -69,24 +46,23 @@ const AppToolbar: React.FC<Props> = ({
 }) => {
 	const classes = useStyles();
 	return (
-		<React.Fragment>
-			<AppBar
-				position="fixed"
-				className={clsx(classes.appBar, {
-					[classes.appBarShift]: open,
-				})}
-			>
-				<Toolbar>
-					<MenuButton />
-					<DirectionsBoatTwoToneIcon className={classes.logo} />
-					<Typography variant="h6" className={classes.title}>
-						GetOnBoard
-					</Typography>
-					<Button color="inherit">Login</Button>
-				</Toolbar>
-			</AppBar>
-			<div className={classes.offset} />
-		</React.Fragment>
+		//<React.Fragment>
+		<AppBar
+			position="relative"
+			className={classes.appBar}
+			color="primary"
+		>
+			<Toolbar>
+				<MenuButton />
+				<DirectionsBoatTwoToneIcon className={classes.logo} />
+				<Typography variant="h6" className={classes.title}>
+					GetOnBoard
+				</Typography>
+				<Button color="inherit">Login</Button>
+			</Toolbar>
+		</AppBar>
+		//<div className={classes.offset} />
+		// </React.Fragment>
 	);
 };
 

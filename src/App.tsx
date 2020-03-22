@@ -10,6 +10,11 @@ import {
 import { RootState } from './store/reducers';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
+import {
+	createStyles,
+	makeStyles,
+	Theme,
+} from '@material-ui/core/styles';
 
 interface StateProps {
 	drawerToggleStateProps: DrawerToggleStateProps;
@@ -18,11 +23,19 @@ interface StateProps {
 type Props = StateProps;
 type StateToProps = (state: RootState) => StateProps;
 
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		container: {
+			background: theme.palette.background.default,
+		},
+	}),
+);
+
 const App: React.FC<Props> = ({
 	drawerToggleStateProps: { open },
 }) => {
 	const classes = appDrawerToggleStyle();
-
+	const classes2 = useStyles();
 	return (
 		<React.Fragment>
 			<header>
@@ -36,9 +49,9 @@ const App: React.FC<Props> = ({
 				<AppDrawer />
 			</header>
 			<div
-				className={clsx(classes.appDrawerClose, {
+				className={`${clsx(classes.appDrawerClose, {
 					[classes.appDrawerOpen]: open,
-				})}
+				})} ${classes2.container}`}
 			>
 				<AppCardContainer />
 			</div>

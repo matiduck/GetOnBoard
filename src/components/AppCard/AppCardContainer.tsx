@@ -1,8 +1,9 @@
 import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { AppCard } from './AppCard';
+import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -18,31 +19,19 @@ export const AppCardContainer: React.FC = () => {
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={3}>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
-				<Grid item xs={3}>
-					<AppCard />
-				</Grid>
+				{(() => {
+					var cards = [];
+					for (let i = 0; i < 50; i++) {
+						cards.push(
+							<Grid item xs={3}>
+								<AppCard />
+							</Grid>,
+						);
+					}
+					return cards;
+				})()}
 			</Grid>
+			<Pagination count={10} color="primary" />
 		</div>
 	);
 };
